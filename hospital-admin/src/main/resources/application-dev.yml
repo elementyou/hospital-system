@@ -1,0 +1,24 @@
+# 开发环境配置
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/hospital_outpatient?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: admin@123
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password:
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*.xml # 注意 mapper 前面的 "/"
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+hospital:
+  jwt:
+    secret: DevSecretKeyForTestingOnly123456789
+
+server:
+  port: 8080
+  address: 0.0.0.0

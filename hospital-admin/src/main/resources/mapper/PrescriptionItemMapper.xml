@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hospital.admin.mapper.PrescriptionItemMapper">
+
+    <select id="statMedicineConsume" resultType="com.hospital.admin.vo.MedicineConsumeVO">
+        SELECT m.name AS medicineName,
+               SUM(pi.quantity) AS consumeCount,
+               SUM(pi.quantity * pi.unit_price) AS consumeAmount
+        FROM medicine m
+                 LEFT JOIN prescription_item pi ON m.id = pi.medicine_id AND pi.deleted=0
+                 LEFT JOIN prescription p ON pi.prescription_id = p.id AND p.deleted=0 AND DATE(p.created_at) BETWEEN #{startDate} AND #{endDate}
+        WHERE m.deleted=0
+        GROUP BY m.id,m.name
+    </select>
+
+
+</mapper>

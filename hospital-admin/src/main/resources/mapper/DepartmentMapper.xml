@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hospital.admin.mapper.DepartmentMapper">
+
+    <select id="statDepartment" resultType="com.hospital.admin.vo.DashboardVO$DepartmentStatVO">
+        SELECT d.name AS departmentName,
+               COUNT(a.id) AS appointmentCount,
+               COUNT(DISTINCT doc.id) AS doctorCount
+        FROM department d
+                 LEFT JOIN doctor doc ON d.id = doc.department_id AND doc.deleted=0
+                 LEFT JOIN doctor_schedule s ON doc.id = s.doctor_id AND s.deleted=0
+                 LEFT JOIN appointment a ON s.id = a.schedule_id AND a.deleted=0 AND DATE(a.created_at) BETWEEN #{startDate} AND #{endDate}
+        WHERE d.deleted=0
+        GROUP BY d.id,d.name
+    </select>
+
+
+</mapper>
